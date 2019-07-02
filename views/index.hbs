@@ -1,0 +1,65 @@
+
+{{#if msg}}
+    <p>
+        {{ msg }}
+    </p>
+{{/if}}
+<br>
+<br>
+<container class="view">
+    <form action="/viewall" method="GET">
+        <button type="submit">View All</button>
+    </form>
+</container>
+
+<br>
+<container class="add">
+    <form action="/add" method="POST">
+        <input type="text" id="name" name="name" placeholder="Enter Name">
+        <input type="text" id="desc" name="desc" placeholder="Enter Description">
+        <button type="submit">Add</button>
+    </form>
+</container>
+
+
+<br>
+<container class="update">
+    <form action="/update" method="POST">
+        <input type="text" id="name" name="name" placeholder="Enter Name">
+        <button>Update</button>
+    </form>
+</container>
+<br>
+
+{{#if data}}
+    <form action="/updateit" method="POST">
+        <input type="text" id="id" name="id" value="{{data._id}}" hidden>
+        <input type="text" id="name" name="name" value="{{data.name}}">
+        <input type="text" id="desc" name="desc" value="{{data.desc}}">
+        <button type="submit">Update It</button>
+    </form>
+    <br>
+{{/if}}
+
+<container class="delete">
+    <form action="/delete" method="POST">
+        <input type="text" id="name" name="name" placeholder="Enter Name to be deleted">
+        <button type="submit">Delete</button>
+    </form>
+</container>
+<br>
+<br>
+
+<table title="h">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+
+    {{#each view}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.desc}}</td>
+        </tr>
+    {{/each}}
+</table>
