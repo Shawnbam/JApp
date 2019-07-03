@@ -25,7 +25,7 @@
 <br>
 <container class="update">
     <form action="/update" method="POST">
-        <input type="text" id="name" name="name" placeholder="Enter Name">
+        <input type="text" id="name" name="name" placeholder="Enter Id">
         <button>Update</button>
     </form>
 </container>
@@ -43,7 +43,7 @@
 
 <container class="delete">
     <form action="/delete" method="POST">
-        <input type="text" id="name" name="name" placeholder="Enter Name to be deleted">
+        <input type="text" id="name" name="name" placeholder="Enter Id to be deleted">
         <button type="submit">Delete</button>
     </form>
 </container>
@@ -52,6 +52,7 @@
 
 <table title="h">
     <tr>
+        <th>Id</th>
         <th>Name</th>
         <th>Description</th>
         <th>Date AND Time</th>
@@ -59,6 +60,7 @@
 
     {{#each view}}
         <tr>
+            <td>{{this._id}}</td>
             <td>{{this.name}}</td>
             <td>{{this.desc}}</td>
             <td>{{this.date}}</td>

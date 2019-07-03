@@ -21,7 +21,6 @@ router.get('/viewall', function(req, res, next) {
     result.forEach(element => {
       view.push(element);
     });
-    console.log(view);
     res.render('index', { view: view });
   });
 });
@@ -29,10 +28,10 @@ router.get('/viewall', function(req, res, next) {
 router.post('/add', function(req, res, next) {
   dbb.db('japp').collection('japp').findOne({}, { "sort": [['_id','desc']] }, function(err , res){
     if(res === null){
-      dbb.db('japp').collection('japp').insert({_id : 1, name: req.body.name, desc: req.body.desc, date:Date()});
+      dbb.db('japp').collection('japp').insert({_id : '1', name: req.body.name, desc: req.body.desc, date:Date()});
     }
     else{
-      dbb.db('japp').collection('japp').insert({_id : (res._id+1), name: req.body.name, desc: req.body.desc, date:Date()});
+      dbb.db('japp').collection('japp').insert({_id : (parseInt(res._id, 10)+1).toString(), name: req.body.name, desc: req.body.desc, date:Date()});
     }
   });
   // var options = { "sort": [['seq','desc']] };
@@ -43,7 +42,8 @@ router.post('/add', function(req, res, next) {
   res.render('index', { add: 'Express' });
 });
 router.post('/update', function(req, res, next) {
-  dbb.db('japp').collection('japp').findOne({name:req.body.name}, (err, result) => {
+  let ObjectId = new require('mongodb').ObjectID; 
+  dbb.db('japp').collection('japp').findOne({'_id':(req.body.name)}, (err, result) => {
     if(result){
       console.log('data ', result.name);
       res.render('index', { data: result });
@@ -57,7 +57,7 @@ router.post('/update', function(req, res, next) {
 
 router.post('/updateit', function(req, res, next) {
   console.log('idhar hu', req.body);  
-  dbb.db('japp').collection('japp').updateOne({"_id":objectId(req.body.id)}, 
+  dbb.db('japp').collection('japp').updateOne({'_id':(req.body.id)}, 
     {$set:{
       name: req.body.name,
       desc: req.body.desc,
@@ -72,7 +72,8 @@ router.post('/updateit', function(req, res, next) {
 
 
 router.get('/delete/:name', function(req, res, next) {  
-  dbb.db('japp').collection('japp').remove({name: req.params.name});
+  console.log(req.params.name);
+  dbb.db('japp').collection('japp').remove({'_id': req.params.name});
   res.render('index');
 });
 
