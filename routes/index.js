@@ -27,10 +27,19 @@ router.get('/viewall', function(req, res, next) {
 });
 
 router.post('/add', function(req, res, next) {
-  console.log(req.body);
-  dbb.db('japp').collection('japp').insert({name: req.body.name,
-    desc: req.body.desc, date:Date()});
-    console.log(Date.now());
+  dbb.db('japp').collection('japp').findOne({}, { "sort": [['_id','desc']] }, function(err , res){
+    if(res === null){
+      dbb.db('japp').collection('japp').insert({_id : 1, name: req.body.name, desc: req.body.desc, date:Date()});
+    }
+    else{
+      dbb.db('japp').collection('japp').insert({_id : (res._id+1), name: req.body.name, desc: req.body.desc, date:Date()});
+    }
+  });
+  // var options = { "sort": [['seq','desc']] };
+  // collection.findOne({}, options , function(err, doc) {
+  //     console.log("Returned #" + doc.seq + " documents");
+  // }); 
+  // console.log(Date.now());
   res.render('index', { add: 'Express' });
 });
 router.post('/update', function(req, res, next) {
