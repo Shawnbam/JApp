@@ -42,6 +42,7 @@ router.post('/update', function(req, res, next) {
     }
     res.render('index', { msg: 'Some error occured try again' });
     return;
+    //
   });
 });
 
