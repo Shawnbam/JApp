@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongo = require('mongodb').MongoClient;
 var objectId  = require('mongodb').ObjectId;
+//var date1  = require('mongodb').date;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017/japp'
 var dbb;
@@ -28,10 +29,10 @@ router.get('/viewall', function(req, res, next) {
 router.post('/add', function(req, res, next) {
   console.log(req.body);
   dbb.db('japp').collection('japp').insert({name: req.body.name,
-    desc: req.body.desc});
+    desc: req.body.desc, date:Date()});
+    console.log(Date.now());
   res.render('index', { add: 'Express' });
 });
-
 router.post('/update', function(req, res, next) {
   dbb.db('japp').collection('japp').findOne({name:req.body.name}, (err, result) => {
     if(result){
@@ -49,7 +50,8 @@ router.post('/updateit', function(req, res, next) {
   dbb.db('japp').collection('japp').updateOne({"_id":objectId(req.body.id)}, 
     {$set:{
       name: req.body.name,
-      desc: req.body.desc
+      desc: req.body.desc,
+      date: Date()
   }} , (err, result) => {
     console.log('result ', result);
     res.render('index');
