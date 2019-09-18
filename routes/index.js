@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mongo = require('mongodb').MongoClient;
+var objectId  = require('mongodb').ObjectId;
+//var date1  = require('mongodb').date;
+var assert = require('assert');
 var url = 'mongodb://localhost:27017/japp'
 var dbb;
 mongo.connect(url, function(err, db){
@@ -74,14 +77,19 @@ router.post('/updateit', function(req, res, next) {
   );
 });
 
+
 router.get('/delete/:name', function(req, res, next) {  
   console.log(req.params.name);
   dbb.db('japp').collection('japp').remove({'_id': req.params.name});
   res.render('index');
 });
 
+
 router.post('/delete', function(req, res, next) { 
   res.redirect('/delete/' + req.body.name);
 });
+
+
+
 
 module.exports = router;
